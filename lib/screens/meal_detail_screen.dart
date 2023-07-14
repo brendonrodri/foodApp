@@ -13,7 +13,7 @@ class MealDetailScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.all(10),
-      width: 300,
+      width: 350,
       height: 230,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -32,19 +32,20 @@ class MealDetailScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text(meal.title),
         ),
-        body: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 300,
-              width: double.infinity,
-              child: Image.network(
-                meal.imageUrl,
-                fit: BoxFit.cover,
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 300,
+                width: double.infinity,
+                child: Image.network(
+                  meal.imageUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-            _createSectionTitle(context, 'Ingredientes'),
-            _createSectionContainer(
-              ListView.builder(
+              _createSectionTitle(context, 'Ingredientes'),
+              _createSectionContainer(
+                ListView.builder(
                   itemCount: meal.ingredients.length,
                   itemBuilder: (ctx, index) {
                     return Card(
@@ -57,9 +58,30 @@ class MealDetailScreen extends StatelessWidget {
                         child: Text(meal.ingredients[index]),
                       ),
                     );
-                  }),
-            ),
-          ],
+                  },
+                ),
+              ),
+              _createSectionTitle(context, ''),
+              _createSectionContainer(ListView.builder(
+                  itemCount: meal.steps.length,
+                  itemBuilder: (ctx, index) {
+                    return Column(
+                      children: [
+                        ListTile(
+                          leading: CircleAvatar(
+                            child: Text('${index + 1}'),
+                          ),
+                          title: Text(meal.steps[index]),
+                        ),
+                        const Divider(
+                         thickness: 1,
+                          color: Colors.amber
+                        )
+                      ],
+                    );
+                  }))
+            ],
+          ),
         ));
   }
 }
